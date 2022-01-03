@@ -119,5 +119,5 @@ class TelegramParser:
 
 # The main function, the entry point
 if __name__ == '__main__':
-    a_parser = TelegramParser("scam")
+    a_parser = TelegramParser("Scamily")
     a_parser.parse_time()
