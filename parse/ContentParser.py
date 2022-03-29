@@ -9,11 +9,12 @@ import pandas as pd
 
 
 class TelegramParser:
-    def __init__(self, folder, ):
+    def __init__(self, folder ):
         self.folder = folder
         self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
         self.parse_csv = os.path.join(self.source_dir, "Chat/chat.csv")
         self.parse_csv_datelist = os.path.join(self.source_dir, "Chat/chat_datelist.csv")
+        self.parse_datelist_by_person = os.path.join(self.source_dir, "Chat/datelist_by_person.csv")
         self.dic_file_path = os.path.join(self.source_dir, "Chat/dict.json")  # outout2: usernmae to number dictionary
 
     def parse(self):
@@ -86,7 +87,15 @@ class TelegramParser:
         groupdf.to_csv(self.parse_csv_datelist, index=False)
 
 
+    def parse_date_by_person(self):
+        if os.path.exists(self.parse_datelist_by_person):
+            os.remove(self.parse_datelist_by_person)
+        df = pd.read_csv(self.parse_csv)
+
+        groupdf = df.groupby(["username"]).date.apply(list).reset_index(name="datelist")
+        groupdf.to_csv(self.parse_datelist_by_person, index=False)
+
 # The main function, the entry point
 if __name__ == '__main__':
     a_parser = TelegramParser("Scamily")
-    a_parser.parse_date_list()
+    a_parser.parse_date_by_person()
