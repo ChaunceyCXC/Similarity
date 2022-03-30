@@ -3,7 +3,22 @@ from uti.utility import read_json
 from statistics import mean
 import numpy as np
 
-
+def datetime_embedding(dateliststr):
+    date_vector_list =[]
+    datelist_str = dataliststr[1:-1]
+    date_list = datelist_str.split(",")
+    for date in date_list:
+        date_vector=[]
+        date = date.strip()
+        datestring = date[1:-1]
+        date_ = datetime.datetime.strptime(datestring, '%d.%m.%Y %H:%M:%S')
+        date_vector.append(date_.hour())
+        date_vector.append(date_.week_day())
+        date_vector.append(date_.year())
+        date_vector.append(date_.month())
+        date_vector.append(date_.day())
+        date_vector_list.append(date_vector)
+    return date_vector_list
 
 def date_list_to_vector(dataliststr):
      timezone_f = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
