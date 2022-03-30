@@ -4,6 +4,20 @@ from statistics import mean
 import numpy as np
 
 
+
+def date_list_to_vector(dataliststr):
+     timezone_f = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+     if not dataliststr:
+         return timezone_f
+     datelist_str = dataliststr[1:-1]
+     date_list = datelist_str.split(",")
+     for date in date_list:
+         date = date.strip()
+         hour = date_to_hour(date[1:-1])
+         index = int(hour)
+         timezone_f[index] += 1
+     return timezone_f
+
 def date_to_hour(date_time):
     y_date = datetime.datetime.strptime(date_time, '%d.%m.%Y %H:%M:%S')
     day = date_time[:- 8]
@@ -57,5 +71,5 @@ def date_to_timezone(timeliest):
 
 if __name__ == '__main__':
     date = "06.09.2021 23:43:25"
-    hour = date_to_weekday(date)
+    hour = date_to_hour(date)
     print(hour)

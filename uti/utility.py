@@ -54,6 +54,3 @@ def savegraphtotxt(graph, file):
    np.savetxt(file,graph,fmt='%.2f')
 
 
-if __name__ == '__main__':
-    filepath = "/home/xucan/Downloads/Telegram Desktop/Credit/Chat/chat.csv"
-    read_csv_sequence(filepath, 1)
