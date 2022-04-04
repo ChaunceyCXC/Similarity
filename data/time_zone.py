@@ -2,14 +2,15 @@ import datetime
 from uti.utility import read_json
 from statistics import mean
 import numpy as np
-
+Global_lenght = 20
 def datetime_rnn(dateliststr):
-    date_vector_list =[]
+    date_vector_list1 =[]
+    date_vector_list2 =[]
     datelist_str = dateliststr[1:-1]
     date_list = datelist_str.split(",")
-    if len(date_list) < 10:
-        return None
-    for i in range(10):
+    if len(date_list) < Global_lenght:
+        return None, None
+    for i in range(Global_lenght):
         date = date_list[i]
         date_vector=[]
         date = date.strip()
@@ -20,21 +21,31 @@ def datetime_rnn(dateliststr):
         date_vector.append(date_.month)
         date_vector.append(date_.day)
         date_vector.append(date_.weekday())
-        date_vector_list.append(date_vector)
-    return date_vector_list
+        if i < Global_lenght/2:
+            date_vector_list1.append(date_vector)
+        else :
+            date_vector_list2.append(date_vector)
+    return date_vector_list1, date_vector_list2
 
 def date_list_to_vector(dataliststr):
-     timezone_f = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+     timezone_f_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+     timezone_f_2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
      if not dataliststr:
-         return timezone_f
+         return None, None
      datelist_str = dataliststr[1:-1]
      date_list = datelist_str.split(",")
-     for date in date_list:
+     if len(date_list) < Global_lenght :
+         return None, None
+     for i in range(Global_lenght):
+         date = date_list[i]
          date = date.strip()
          hour = date_to_hour(date[1:-1])
          index = int(hour)
-         timezone_f[index] += 1
-     return timezone_f
+         if i < Global_lenght/2:
+             timezone_f_1[index] += 1
+         else:
+             timezone_f_2[index] += 1
+     return timezone_f_1, timezone_f_2
 
 def date_to_hour(date_time):
     y_date = datetime.datetime.strptime(date_time, '%d.%m.%Y %H:%M:%S')

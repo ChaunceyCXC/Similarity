@@ -9,7 +9,7 @@ from time_zone import datetime_rnn
 class TimePatternProcessor:
     def __init__(self, folder):
         self.folder = folder
-        self.source_dir = "/home/xucan/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
+        self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
         self.normal_train = os.path.join(self.source_dir, "Chat/train.txt")
         self.parse_datelist_by_person = os.path.join(self.source_dir, "Chat/datelist_by_person.csv")
         self.cnn_train = os.path.join(self.source_dir, "Chat/cnn_train.txt")
@@ -23,8 +23,10 @@ class TimePatternProcessor:
         date_list = df["datelist"]
         vectors = []
         for datestring in date_list:
-            vector = date_list_to_vector(datestring)
-            vectors.append(vector)
+            vector1, vector2 = date_list_to_vector(datestring)
+            if vector1:
+                vectors.append(vector1)
+                vectors.append(vector2)
 
         n_array = np.asarray(vectors)
         print(n_array.shape)
@@ -37,9 +39,12 @@ class TimePatternProcessor:
         date_list = df["datelist"]
         vectors = []
         for datestring in date_list:
-            vector = date_list_to_vector(datestring)
-            vector.extend(vector)
-            vectors.append(vector)
+            vector1, vector2 = date_list_to_vector(datestring)
+            if vector1:
+                vector1.extend(vector1)
+                vector2.extend(vector2)
+                vectors.append(vector1)
+                vectors.append(vector2)
 
         n_array = np.asarray(vectors)
         print(n_array.shape)
@@ -52,9 +57,10 @@ class TimePatternProcessor:
         date_list = df["datelist"]
         vectors = []
         for datestring in date_list:
-            vector = datetime_rnn(datestring)
-            if vector:
-                vectors.append(vector)
+            vector1, vector2 = datetime_rnn(datestring)
+            if vector1:
+                vectors.append(vector1)
+                vectors.append(vector2)
 
         n_array = np.asarray(vectors)
         (x, y, z )= n_array.shape
@@ -63,8 +69,8 @@ class TimePatternProcessor:
         np.savetxt(self.rnn_train, nre_array, fmt='%d')
 
     def readNarray(self):
-        x = np.loadtxt(self.narray_path_twice, dtype=int)
-        print(type(x))
+        x = np.loadtxt(self.cnn_train, dtype=int)
+
         print(x.shape)
 
 
@@ -73,3 +79,4 @@ if __name__ == '__main__':
     processor.save_cnn_train()
     processor.save_rnn_train()
     processor.save_time_vector()
+    processor.readNarray()
