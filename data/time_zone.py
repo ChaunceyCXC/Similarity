@@ -3,20 +3,23 @@ from uti.utility import read_json
 from statistics import mean
 import numpy as np
 
-def datetime_embedding(dateliststr):
+def datetime_rnn(dateliststr):
     date_vector_list =[]
-    datelist_str = dataliststr[1:-1]
+    datelist_str = dateliststr[1:-1]
     date_list = datelist_str.split(",")
-    for date in date_list:
+    if len(date_list) < 10:
+        return None
+    for i in range(10):
+        date = date_list[i]
         date_vector=[]
         date = date.strip()
         datestring = date[1:-1]
         date_ = datetime.datetime.strptime(datestring, '%d.%m.%Y %H:%M:%S')
-        date_vector.append(date_.hour())
-        date_vector.append(date_.week_day())
-        date_vector.append(date_.year())
-        date_vector.append(date_.month())
-        date_vector.append(date_.day())
+        date_vector.append(date_.hour)
+        date_vector.append(date_.year)
+        date_vector.append(date_.month)
+        date_vector.append(date_.day)
+        date_vector.append(date_.weekday())
         date_vector_list.append(date_vector)
     return date_vector_list
 
