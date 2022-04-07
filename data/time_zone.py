@@ -2,7 +2,7 @@ import datetime
 from uti.utility import read_json
 from statistics import mean
 import numpy as np
-Global_lenght = 20
+Global_lenght = 100
 def datetime_rnn(dateliststr):
     date_vector_list1 =[]
     date_vector_list2 =[]
@@ -53,6 +53,8 @@ def date_list_to_cnn_h_train(dateliststr):
     datelist_str = dateliststr[1:-1]
     date_list = datelist_str.split(",")
     isTrue = True
+    if len(date_list) < Global_lenght:
+        return None, None
     for i in range(len(date_list)):
         date = date_list[i]
         date = date.strip()

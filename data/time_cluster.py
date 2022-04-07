@@ -10,7 +10,7 @@ class Timecluster:
     def __init__(self, folder):
         self.folder = folder
         self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
-        self.embedding = os.path.join(self.source_dir, "Chat/lstm_embedding.txt")
+        self.embedding = os.path.join(self.source_dir, "Chat/cnn_embedding.txt")
     def accuracy(self):
         x = np.loadtxt(self.embedding, dtype=int)
         limit = 30
