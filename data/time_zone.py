@@ -26,6 +26,50 @@ def datetime_rnn(dateliststr):
         else :
             date_vector_list2.append(date_vector)
     return date_vector_list1, date_vector_list2
+def date_list_to_cnn_h(dateliststr):
+
+    cnn_vector = [0] * 2184
+    if not dateliststr:
+        return None
+    datelist_str = dateliststr[1:-1]
+    date_list = datelist_str.split(",")
+    for i in range(len(date_list)):
+        date = date_list[i]
+        date = date.strip()
+        y_date = datetime.datetime.strptime(date[1:-1], '%d.%m.%Y %H:%M:%S')
+        x_date = datetime.datetime.strptime("03.01.2022 00:00:00", '%d.%m.%Y %H:%M:%S')
+        diff = y_date - x_date
+        hours = int(diff.seconds / 3600)
+        if 0 <= hours <= 2183:
+            cnn_vector[hours] += 1
+    return cnn_vector
+
+def date_list_to_cnn_h_train(dateliststr):
+
+    cnn_vector_1 = [0] * 2184
+    cnn_vector_2 = [0] * 2184
+    if not dateliststr:
+        return None, None
+    datelist_str = dateliststr[1:-1]
+    date_list = datelist_str.split(",")
+    isTrue = True
+    for i in range(len(date_list)):
+        date = date_list[i]
+        date = date.strip()
+        y_date = datetime.datetime.strptime(date[1:-1], '%d.%m.%Y %H:%M:%S')
+        x_date = datetime.datetime.strptime("03.01.2022 00:00:00", '%d.%m.%Y %H:%M:%S')
+        diff = y_date - x_date
+        hours = int(diff.seconds / 3600)
+        if 0 <= hours <= 2183:
+            if isTrue:
+                cnn_vector_1[hours] += 1
+            else:
+                cnn_vector_2[hours] += 1
+    return cnn_vector_1, cnn_vector_2
+
+
+
+
 
 def date_list_to_vector(dataliststr):
      timezone_f_1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]

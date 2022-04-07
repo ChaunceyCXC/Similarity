@@ -1,10 +1,5 @@
-import datetime
-import os
-
 from data.time_zone import date_to_timezone, date_to_weekday
 from uti.utility import read_json, write_to_csv_file
-from statistics import mean
-import numpy as np
 import os
 
 

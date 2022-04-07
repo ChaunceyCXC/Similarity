@@ -12,7 +12,7 @@ import string
 class TelegramParser:
     def __init__(self, folder, save_as_csv=True):
         self.folder = folder
-        self.source_dir = "/home/xucan/Downloads/Telegram Desktop/" + self.folder# source file folder from telegram
+        self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder# source file folder from telegram
         self.time_folder = os.path.join(self.source_dir, "Time")
         self.text_folder = os.path.join(self.source_dir, "Text")
         self.remove_deleted_account = True
@@ -119,5 +119,5 @@ class TelegramParser:
 
 # The main function, the entry point
 if __name__ == '__main__':
-    a_parser = TelegramParser("scam")
+    a_parser = TelegramParser("Scamily")
     a_parser.parse_time()

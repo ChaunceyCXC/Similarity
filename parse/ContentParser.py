@@ -11,7 +11,7 @@ import pandas as pd
 class TelegramParser:
     def __init__(self, folder):
         self.folder = folder
-        self.source_dir = "/home/xucan/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
+        self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
         self.parse_csv = os.path.join(self.source_dir, "Chat/chat.csv")
         self.parse_csv_datelist = os.path.join(self.source_dir, "Chat/chat_datelist.csv")
         self.parse_datelist_by_person = os.path.join(self.source_dir, "Chat/datelist_by_person.csv")
@@ -61,20 +61,11 @@ class TelegramParser:
                         text = deEmojify(text)
 
                         if text != "NOT TEXT" and text != "":
-                            if username != self.last_username:
                                 a_new_message = {"date": date, "username": username, "text": text}
                                 all_messages.append([date, username, text])
-                            else:
-                                last_message = all_messages.pop()
-                                the_text = last_message[3]
-                                if the_text[-1] in string.punctuation:
-                                    last_message[3] = the_text + " " + text
-                                else:
-                                    last_message[3] = the_text + ". " + text
-                                all_messages.append(last_message)
 
-        if self.save_as_csv:
-            write_to_csv_file(self.parse_csv, all_messages)
+
+        write_to_csv_file(self.parse_csv, all_messages)
 
         write_to_json_file(self.dic_file_path, dict)
 
@@ -98,4 +89,5 @@ class TelegramParser:
 # The main function, the entry point
 if __name__ == '__main__':
     a_parser = TelegramParser("Scamily")
+    a_parser.parse()
     a_parser.parse_date_by_person()

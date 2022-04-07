@@ -4,7 +4,7 @@ import numpy as np
 
 from uti.utility import read_csv_todf
 from time_zone import date_list_to_vector
-from time_zone import datetime_rnn
+from time_zone import datetime_rnn, date_list_to_cnn_h, date_list_to_cnn_h_train
 
 class TimePatternProcessor:
     def __init__(self, folder):
@@ -15,7 +15,8 @@ class TimePatternProcessor:
         self.cnn_train = os.path.join(self.source_dir, "Chat/cnn_train.txt")
         self.dic_file_path = os.path.join(self.source_dir, "Chat/dict.json")
         self.rnn_train = os.path.join(self.source_dir, "Chat/rnn_train.txt")
-
+        self.cnn_h =  os.path.join(self.source_dir, "Chat/cnn_h.txt")
+        self.cnn_h_train = os.path.join(self.source_dir, "Chat/cnn_h_train.txt")
     def save_time_vector(self):
         if os.path.exists(self.normal_train):
             os.remove(self.normal_train)
@@ -72,11 +73,36 @@ class TimePatternProcessor:
         x = np.loadtxt(self.cnn_train, dtype=int)
 
         print(x.shape)
+    def save_cnn_h(self):
+        if os.path.exists(self.cnn_h):
+            os.remove(self.cnn_h)
+        df = read_csv_todf(self.parse_datelist_by_person)
+        date_list = df["datelist"]
+        vectors = []
+        for datestring in date_list:
+            vector1 = date_list_to_cnn_h(datestring)
+            if vector1:
+                vectors.append(vector1)
+        n_array = np.asarray(vectors)
+        print(n_array.shape)
+        np.savetxt(self.cnn_h, n_array, fmt='%d')
 
+    def save_cnn_h_train(self):
+        if os.path.exists(self.cnn_h_train):
+            os.remove(self.cnn_h_train)
+        df = read_csv_todf(self.parse_datelist_by_person)
+        date_list = df["datelist"]
+        vectors = []
+        for datestring in date_list:
+            vector1,vector2 = date_list_to_cnn_h_train(datestring)
+            if vector1 :
+                vectors.append(vector1)
+                vectors.append(vector2)
+        n_array = np.asarray(vectors)
+        print(n_array.shape)
+        np.savetxt(self.cnn_h_train, n_array, fmt='%d')
 
 if __name__ == '__main__':
     processor = TimePatternProcessor("Scamily")
-    processor.save_cnn_train()
-    processor.save_rnn_train()
-    processor.save_time_vector()
-    processor.readNarray()
+    #processor.save_cnn_h()
+    processor.save_cnn_h_train()
