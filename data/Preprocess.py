@@ -9,7 +9,7 @@ from time_zone import datetime_rnn, date_list_to_cnn_h, date_list_to_cnn_h_train
 class TimePatternProcessor:
     def __init__(self, folder):
         self.folder = folder
-        self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
+        self.source_dir = "/home/xucan/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
         self.normal_train = os.path.join(self.source_dir, "Chat/train.txt")
         self.parse_datelist_by_person = os.path.join(self.source_dir, "Chat/datelist_by_person.csv")
         self.cnn_train = os.path.join(self.source_dir, "Chat/cnn_train.txt")
@@ -104,5 +104,5 @@ class TimePatternProcessor:
 
 if __name__ == '__main__':
     processor = TimePatternProcessor("Scamily")
-    #processor.save_cnn_h()
+    processor.save_cnn_h()
     processor.save_cnn_h_train()

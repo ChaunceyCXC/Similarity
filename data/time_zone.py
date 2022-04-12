@@ -65,8 +65,10 @@ def date_list_to_cnn_h_train(dateliststr):
         if 0 <= hours <= 2183:
             if isTrue:
                 cnn_vector_1[hours] += 1
+                isTrue = False
             else:
                 cnn_vector_2[hours] += 1
+                isTrue = True
     return cnn_vector_1, cnn_vector_2
 
 

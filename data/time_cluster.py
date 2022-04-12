@@ -7,13 +7,12 @@ from time_zone import date_list_to_vector
 from time_zone import datetime_rnn
 
 class Timecluster:
-    def __init__(self, folder):
-        self.folder = folder
-        self.source_dir = "/home/chauncey/Downloads/Telegram Desktop/" + self.folder  # source file folder from telegram
-        self.embedding = os.path.join(self.source_dir, "Chat/cnn_embedding.txt")
+    def __init__(self):
+        self.source_dir = "/home/xucan/Downloads"   # source file folder from telegram
+        self.embedding = os.path.join(self.source_dir, "cnn_embedding (3).txt")
     def accuracy(self):
         x = np.loadtxt(self.embedding, dtype=int)
-        limit = 30
+        limit = 5
         AdjDic = {}
         for i in range(200):
             AdjDic[i] = []
@@ -39,16 +38,16 @@ class Timecluster:
             for (value, index) in heap1:
                 if index == i + 1:
                     count+=1
+                    isCP = True
             for (value, index) in heap2:
                 if index == i:
-                    count+=1
-            if isCP:
-                count += 1
+                    if not isCP:
+                       count+=1
         print(count)
 
 
 
 if __name__ == '__main__':
-    processor = Timecluster("Scamily")
+    processor = Timecluster()
     processor.accuracy()
 
