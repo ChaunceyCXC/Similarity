@@ -8,11 +8,12 @@ from time_zone import datetime_rnn
 
 class Timecluster:
     def __init__(self):
-        self.source_dir = "/home/xucan/Downloads"   # source file folder from telegram
-        self.embedding = os.path.join(self.source_dir, "cnn_embedding (3).txt")
+        self.source_dir = "/home/chauncey/Downloads"   # source file folder from telegram
+        self.embedding = os.path.join(self.source_dir, "normal_embedding.txt")
+        self.limit = 0
     def accuracy(self):
         x = np.loadtxt(self.embedding, dtype=int)
-        limit = 5
+        limit = self.limit
         AdjDic = {}
         for i in range(200):
             AdjDic[i] = []
@@ -49,5 +50,8 @@ class Timecluster:
 
 if __name__ == '__main__':
     processor = Timecluster()
-    processor.accuracy()
+    y = [1, 5, 10,15,20,30,40,50,60,70,80,90,100]
+    for limit in y:
+       processor.limit = limit*2
+       processor.accuracy()
 
